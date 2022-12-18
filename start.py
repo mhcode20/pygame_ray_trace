@@ -70,3 +70,22 @@ viewport_left = viewer_position[0] - SCREEN_WIDTH / 2
 viewport_right = viewer_position[0] + SCREEN_WIDTH / 2
 viewport_top = viewer_position[1] - SCREEN_HEIGHT / 2
 viewport_bottom = viewer_position[1] + SCREEN_HEIGHT / 2
+
+
+
+# Cast the rays and get the distances traveled by each ray
+distances = ray_trace(num_rays, fov, projection_plane_distance, viewer_position, wall_color, map, player_position, player_direction, player_fov, max_distance)
+
+# Draw the objects on the screen
+for i, distance in enumerate(distances):
+    # Calculate the size and position of the object on the screen
+    object_height = SCREEN_HEIGHT / distance
+    object_width = SCREEN_WIDTH / num_rays
+    object_x = viewport_left + i * object_width
+    object_y = viewer_position[1] - object_height / 2
+    
+    # Draw the object on the screen
+    pygame.draw.rect(screen, wall_color, (object_x, object_y, object_width, object_height))
+
+# Update the display
+pygame.display.flip()
